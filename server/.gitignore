@@ -1,0 +1,18 @@
+# Build artifacts
+bin/
+obj/
+
+# User secrets and configs
+*.db
+*.db-shm
+*.db-wal
+.env
+appsettings.Development.json
+appsettings.*.json
+
+# IDE-specific
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
