@@ -15,7 +15,7 @@ const SiteHeader: React.FC = () => {
             <ul className="navbar-menu">
               <li><a href="/menu">Menu</a></li>
               <li><a href="/about">About</a></li>
-              <li><a href="/reservations">Reservations</a></li>
+              <li className='header-reservations-button'><a href="/reservation">Reservations</a></li>
             </ul>
           </nav>
         </header>

@@ -40,38 +40,6 @@
   }
 
   .landing-menu-button {
-    color: $color-header;
-    background: linear-gradient(
-      135deg,
-      rgba(212, 175, 55, 0.9),
-      rgba(255, 215, 100, 0.8)
-    );
-    border: none;
-    border-radius: $border-radius-large;
-    font-family: $font-heading;
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 0.75rem 2rem;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
-
-    &:hover {
-      background: linear-gradient(
-        135deg,
-        rgba(255, 225, 100, 1),
-        rgba(212, 175, 55, 1)
-      );
-      color: $app-primary-color;
-      box-shadow: 0 10px 30px rgba(255, 215, 100, 0.6);
-      transform: translateY(-2px) scale(1.03);
-    }
-
-    &:active {
-      transform: scale(0.98);
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.5);
-    }
+    @include landing-button;
   }
 }

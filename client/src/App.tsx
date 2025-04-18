@@ -5,6 +5,7 @@ import OurMission from "./components/OurMission";
 import ContentWrapper from "./components/ContentWrapper";
 import LandingPage from "./components/LandingPage";
 import MenuList from "./components/MenuList";
+import ReservationForm from "./components/ReservationForm";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Routes>
                 <Route path="mission" element={<OurMission />} />
                 <Route path="menu" element={<MenuList />} />
+                <Route path='reservation' element={<ReservationForm />} />
               </Routes>
             </ContentWrapper>
           }
