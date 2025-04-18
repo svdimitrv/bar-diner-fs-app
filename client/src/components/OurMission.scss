@@ -1,0 +1,31 @@
+.grid-missions-wrapper {
+    display: grid;
+    grid-template-columns: $grid-three-eq-cols;
+    column-gap: 20px;
+    margin-top: $between-sections-spacing;
+}
+
+.mission-card {
+    background-color: $app-primary-color;
+    border-radius: $border-radius-large;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.mission-card-image {
+    max-height: 80px;
+    max-width: 80px;
+    padding: 10px;
+}
+
+.mission-header-text {
+    color: $color-header;
+    padding: 10px;
+    font-family: $font-heading;
+}
+
+.mission-text {
+    color: $color-primary-text;
+    padding: 10px;
+}

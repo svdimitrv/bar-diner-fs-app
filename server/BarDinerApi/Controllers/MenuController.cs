@@ -19,6 +19,7 @@ public class MenuController : ControllerBase
         var items = await _context.MenuItems
             .Include(m => m.Category) // Include category to get the category name
             .ToListAsync();
+            Console.WriteLine("Items count: " + _context.MenuItems.Count());
         return Ok(items);
     }
 

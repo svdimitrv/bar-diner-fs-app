@@ -1,17 +1,31 @@
-import Header from './components/Header'
-import './App.css'
-import { Route, Routes } from 'react-router-dom'
+import Header from "./components/Header";
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import OurMission from "./components/OurMission";
+import ContentWrapper from "./components/ContentWrapper";
+import LandingPage from "./components/LandingPage";
+import MenuList from "./components/MenuList";
 
 function App() {
-
   return (
     <>
-      <Header></Header>
+      <Header />
       <Routes>
-        <Route></Route>
+        <Route path="/" element={<LandingPage />} />
+        <Route
+          path="/*"
+          element={
+            <ContentWrapper>
+              <Routes>
+                <Route path="mission" element={<OurMission />} />
+                <Route path="menu" element={<MenuList />} />
+              </Routes>
+            </ContentWrapper>
+          }
+        />
       </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

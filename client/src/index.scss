@@ -5,11 +5,9 @@
 }
 
 body {
-  background-color: #002147;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
   color: rgba(255, 255, 255, 0.87);
-  font-family: 'Cinzel', serif;
-  ;
+  font-family: $app-primary-font-family;
 }
