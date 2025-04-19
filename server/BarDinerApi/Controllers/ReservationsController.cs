@@ -40,6 +40,7 @@ public class ReservationsController : ControllerBase
             throw new Exception("Email service is not injected properly.");
         }
         await _emailService.SendReservationConfirmationAsync(entity.Email, entity);
+        await _emailService.SendStaffNotificationAsync("dimitrov.svetoslav@gmail.com", entity);
 
         return Ok(new { success = true });
     }
