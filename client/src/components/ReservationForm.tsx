@@ -25,7 +25,7 @@ const ReservationForm: React.FC = () => {
   return (
     <div className="reservation-container">
       <h1>RESERVATIONS</h1>
-      <p>Book a table for your <strong className='barra-text'>BARRA</strong> experience.</p>
+      <p>Book a table for your <strong className='barra-text '>BARRA</strong> experience.</p>
       <form onSubmit={handleSubmit}>
         <div className="form-row">
           <input type="date" name="date" value={formData.date} onChange={handleChange} required />
