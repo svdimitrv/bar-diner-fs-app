@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './ReservationForm.scss';
 
 const ReservationForm: React.FC = () => {
@@ -16,11 +17,30 @@ const ReservationForm: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Reservation submitted:', formData);
-    // handle actual submission (e.g., API call)
+  
+    try {
+      const response = await axios.post('http://localhost:5043/api/reservations', formData);
+  
+      if (response.data.success) {
+        alert('Reservation successful!');
+        setFormData({
+          date: '',
+          time: '',
+          partySize: '',
+          name: '',
+          email: '',
+          phone: '',
+        });
+      }
+    } catch (error: any) {
+      console.error('Reservation failed:', error);
+      alert('There was a problem with your reservation.');
+    }
   };
+  
 
   return (
     <div className="reservation-container">

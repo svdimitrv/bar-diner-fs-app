@@ -4,20 +4,18 @@ using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddControllers();
 
-// Add CORS services to allow your front-end app
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowLocalhost", policy =>
+    options.AddPolicy("AllowLocalhost5173", policy =>
     {
-        policy.AllowAnyOrigin()   // Allow any origin for debugging
-              .AllowAnyMethod()   // Allow any HTTP method (GET, POST, etc.)
-              .AllowAnyHeader();  // Allow any headers
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader(); 
     });
 });
 
@@ -34,8 +32,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Apply CORS policy before UseRouting
-app.UseCors("AllowLocalhost");  // This must be added before UseRouting()
+app.UseCors("AllowLocalhost5173");
 
 app.UseRouting();
 
