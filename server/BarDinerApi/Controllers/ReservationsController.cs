@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 public class ReservationsController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly EmailService _emailService;
 
-    public ReservationsController(AppDbContext context)
+    public ReservationsController(AppDbContext context, EmailService emailService)
     {
         _context = context;
+        _emailService = emailService;
     }
 
     [HttpPost]
@@ -33,6 +35,11 @@ public class ReservationsController : ControllerBase
 
         _context.Reservations.Add(entity);
         await _context.SaveChangesAsync();
+        if (_emailService == null)
+        {
+            throw new Exception("Email service is not injected properly.");
+        }
+        await _emailService.SendReservationConfirmationAsync(entity.Email, entity);
 
         return Ok(new { success = true });
     }
