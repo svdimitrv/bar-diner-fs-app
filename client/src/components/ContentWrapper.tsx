@@ -1,16 +1,15 @@
 import React from 'react';
+import './ContentWrapper.scss'
+
 type ContentWrapperProps = {
     children: React.ReactNode;
   };
 
 const ContentWrapper: React.FC<ContentWrapperProps> = ({children}) => {
     return (
-        <div style={{
-            maxWidth: '1280px',
-            margin: '0 auto'
-        }}>
+        <section className='content-wrapper'>
             {children}
-        </div>
+        </section>
     )
 }
 

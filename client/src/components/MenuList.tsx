@@ -1,12 +1,15 @@
 import React from "react";
 import axios from "axios";
-import './MenuList.scss'
+import "./MenuList.scss";
+import ContentWrapper from "./ContentWrapper";
+import MenuItemCard from "./MenuItemCard";
 
-type MenuItem = {
+export type MenuItem = {
   id: number;
   name: string;
   price: number;
   description: string;
+  quantity: number;
   category: {
     id: number;
     name: string;
@@ -15,26 +18,28 @@ type MenuItem = {
 
 const MenuList: React.FC = () => {
   const [menuData, setMenuData] = React.useState<MenuItem[]>([]);
-  
-  // Grouped items by category name
-  const [groupedMenuItems, setGroupedMenuItems] = React.useState<{ [key: string]: MenuItem[] }>({});
+  const [groupedMenuItems, setGroupedMenuItems] = React.useState<{
+    [key: string]: MenuItem[];
+  }>({});
 
   React.useEffect(() => {
     axios
       .get("http://localhost:5043/api/menu/items")
       .then((response) => {
-        console.log("API response:", response.data); // debug
+        console.log("API response:", response.data);
         setMenuData(response.data);
 
-        // Group the items by category
-        const grouped = response.data.reduce((acc: { [key: string]: MenuItem[] }, item: MenuItem) => {
-          const categoryName = item.category.name;
-          if (!acc[categoryName]) {
-            acc[categoryName] = [];
-          }
-          acc[categoryName].push(item);
-          return acc;
-        }, {});
+        const grouped = response.data.reduce(
+          (acc: { [key: string]: MenuItem[] }, item: MenuItem) => {
+            const categoryName = item.category.name;
+            if (!acc[categoryName]) {
+              acc[categoryName] = [];
+            }
+            acc[categoryName].push(item);
+            return acc;
+          },
+          {}
+        );
 
         setGroupedMenuItems(grouped);
       })
@@ -44,22 +49,20 @@ const MenuList: React.FC = () => {
   }, []);
 
   return (
-    <div className="menu-container">
-      {Object.keys(groupedMenuItems).map((categoryName) => (
-        <div key={categoryName}>
-          <h2 className="menu-category-header">{categoryName}</h2>
-          <div className="menu-items">
-            {groupedMenuItems[categoryName].map((x) => (
-              <div key={x.id} style={{ color: 'black' }}>
-                <h3 className="menu-header">{x.name}</h3>
-                <p className="menu-description">{x.description}</p>
-                <strong className="menu-description">{x.price.toFixed(2)} lv</strong>
-              </div>
-            ))}
+    <ContentWrapper>
+      <div className="menu-container">
+        {Object.keys(groupedMenuItems).map((categoryName) => (
+          <div key={categoryName}>
+            <h2 className="menu-category-header">{categoryName}</h2>
+            <div className="menu-items">
+              {groupedMenuItems[categoryName].map((item) => (
+                <MenuItemCard key={item.id} item={item} />
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </ContentWrapper>
   );
 };
 

@@ -1,0 +1,43 @@
+.menu-item-card {
+    position: relative;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    background: #fff;
+    color: black;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      border: 2px solid $app-primary-color;
+      transition: all 0.4s ease;
+      width: 33%;
+      height: 33%;
+      pointer-events: none;
+    }
+  
+    &::before {
+      top: 0;
+      right: 0;
+      border-left: none;
+      border-bottom: none;
+    }
+  
+    &::after {
+      bottom: 0;
+      left: 0;
+      border-right: none;
+      border-top: none;
+    }
+  
+    &:hover::before,
+    &:hover::after {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  
