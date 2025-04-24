@@ -17,31 +17,19 @@ export type MenuItem = {
 };
 
 const MenuList: React.FC = () => {
-  const [menuData, setMenuData] = React.useState<MenuItem[]>([]);
-  const [groupedMenuItems, setGroupedMenuItems] = React.useState<{
-    [key: string]: MenuItem[];
-  }>({});
+  const [_, setMenuData] = React.useState<MenuItem[]>([]);
+
+  const [grouped, setGrouped] = React.useState<Partial<Record<string, MenuItem[]>>>({});
 
   React.useEffect(() => {
     axios
       .get("http://localhost:5043/api/menu/items")
       .then((response) => {
-        console.log("API response:", response.data);
         setMenuData(response.data);
 
-        const grouped = response.data.reduce(
-          (acc: { [key: string]: MenuItem[] }, item: MenuItem) => {
-            const categoryName = item.category.name;
-            if (!acc[categoryName]) {
-              acc[categoryName] = [];
-            }
-            acc[categoryName].push(item);
-            return acc;
-          },
-          {}
-        );
+        const data = response.data as MenuItem[];
 
-        setGroupedMenuItems(grouped);
+        setGrouped(Object.groupBy(data, (item) => item.category.name));
       })
       .catch((error) => {
         console.error("Error fetching menu items:", error);
@@ -51,11 +39,11 @@ const MenuList: React.FC = () => {
   return (
     <ContentWrapper>
       <div className="menu-container">
-        {Object.keys(groupedMenuItems).map((categoryName) => (
+        {Object.keys(grouped).map((categoryName) => (
           <div key={categoryName}>
             <h2 className="menu-category-header">{categoryName}</h2>
             <div className="menu-items">
-              {groupedMenuItems[categoryName].map((item) => (
+              {grouped[categoryName]?.map((item) => (
                 <MenuItemCard key={item.id} item={item} />
               ))}
             </div>

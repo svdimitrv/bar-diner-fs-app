@@ -8,7 +8,6 @@ export const ShoppingCart: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity, clearCart } = useShoppingCart();
   const navigate = useNavigate();
 
-  const onQuantityChanged = () => {};
 
   const getTotal = () => {
     return cartItems
