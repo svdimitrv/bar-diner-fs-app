@@ -9,6 +9,13 @@ public class AppDbContext : DbContext
     public DbSet<Reservation> Reservations { get; set; }
 }
 
+public class Order {
+    public string? DishName {get;set;}
+    public double Price {get;set;}
+    public int DishQuantity { get; set; }
+    public double Total { get; set; }
+}
+
 public class Reservation
 {
     public int Id { get; set; }

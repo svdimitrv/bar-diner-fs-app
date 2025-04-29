@@ -41,10 +41,14 @@
         color: $color-subtle-text;
       }
     }
+
     .quantity-input {
       max-width: 50px;
       font-family: $app-primary-font-family;
+      font-size: 0.875rem;
+      background-color: $color-subtle-text;
     }
+
     .item-price {
       font-weight: bold;
       color: $color-header;
@@ -82,21 +86,26 @@
         color: $color-accent-text;
       }
     }
+
     .buttons-container {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
+      justify-content: flex-end; // Align buttons to the right
+      gap: 10px;
+      margin-top: 1.5rem;
+
+      .checkout-button,
+      .clear-cart-button {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+        width: auto;
+      }
 
       .checkout-button {
-        @include landing-button;
-        width: 80%;
-        margin-top: 1.5rem;
+        @include highlight-button;
       }
 
       .clear-cart-button {
-        width: 20%;
-        @include landing-button;
+        @include subtle-button;
       }
     }
   }

@@ -5,9 +5,9 @@ import "./ShoppingCart.scss";
 import ContentWrapper from "./ContentWrapper";
 
 export const ShoppingCart: React.FC = () => {
-  const { cartItems, removeFromCart, updateQuantity, clearCart } = useShoppingCart();
+  const { cartItems, removeFromCart, updateQuantity, clearCart } =
+    useShoppingCart();
   const navigate = useNavigate();
-
 
   const getTotal = () => {
     return cartItems
@@ -69,7 +69,7 @@ export const ShoppingCart: React.FC = () => {
               </div>
               <div className="summary-row total">
                 <span>Total</span>
-                <span>€{getTotal()}</span>
+                <span>€{(parseFloat(getTotal()) * 1.2).toFixed(2)}</span>
               </div>
               <div className="buttons-container">
                 <button
@@ -78,10 +78,7 @@ export const ShoppingCart: React.FC = () => {
                 >
                   Checkout
                 </button>
-                <button
-                  className="checkout-button"
-                  onClick={clearCart}
-                >
+                <button className="clear-cart-button" onClick={clearCart}>
                   Clear
                 </button>
               </div>

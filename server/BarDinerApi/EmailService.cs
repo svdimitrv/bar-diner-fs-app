@@ -7,6 +7,14 @@ public class EmailService
     private readonly string _fromEmail = "dimitrov.svetoslav@gmail.com";
     private readonly string _appPassword = "jbxc qtay lgmj elow";
 
+    public async Task SendOrderConfirmationAsync(string toMail, List<Order> orders)
+    {
+        var subject = "Your BARRA order";
+        var body = $"";
+
+
+        await SendEmailAsync(toMail, subject, body);
+    }
     public async Task SendReservationConfirmationAsync(string toMail, Reservation reservation)
     {
         var subject = "Your BARRA Reservation Request";

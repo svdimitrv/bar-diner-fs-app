@@ -11,7 +11,22 @@ $app-primary-font-family: "Cinzel", serif;
 $border-radius-large: 0.375rem;
 $between-sections-spacing: 30px;
 
-@mixin landing-button {
+@mixin subtle-button {
+  color: $color-header;
+  background-color: $color-subtle-text;
+  border: none;
+  border-radius: $border-radius-large;
+  font-family: $font-heading;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+@mixin highlight-button {
   color: $color-header;
   background: linear-gradient(
     135deg,
