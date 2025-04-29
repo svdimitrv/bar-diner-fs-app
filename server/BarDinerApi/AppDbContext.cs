@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
@@ -7,13 +8,76 @@ public class AppDbContext : DbContext
     public DbSet<MenuCategory> MenuCategories { get; set; }
     public DbSet<MenuItem> MenuItems { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
+    public DbSet<Checkout> AllOrders { get; set; }
+    public DbSet<Order> Orders { get; set; }
+    public DbSet<UserInfo> Users { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Checkout → UserInfo (many Checkouts can belong to one UserInfo)
+        modelBuilder.Entity<Checkout>()
+            .HasOne(c => c.User)
+            .WithMany()
+            .HasForeignKey(c => c.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Checkout → Orders (one Checkout has many Orders)
+        modelBuilder.Entity<Checkout>()
+            .HasMany(c => c.Orders)
+            .WithOne(o => o.Checkout)
+            .HasForeignKey(o => o.CheckoutId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 }
 
-public class Order {
-    public string? DishName {get;set;}
-    public double Price {get;set;}
+public class Order
+{
+    [Key]
+    public int OrderId { get; set; }
+    public string? DishName { get; set; }
+    public double Price { get; set; }
     public int DishQuantity { get; set; }
     public double Total { get; set; }
+    public int CheckoutId { get; set; }
+    public Checkout Checkout { get; set; } = null!;
+}
+
+public class UserInfo
+{
+    [Key]
+    public int UserId { get; set; }
+    [Required]
+    public string Name { get; set; } = "";
+    [Required]
+    [ValidCity(new[] { "Pernik", "Перник" })]
+    public string City { get; set; } = "";
+    [Required]
+    public string Email { get; set; } = "";
+    [Required]
+    public string Phone { get; set; } = "";
+    [Required]
+    public string Street { get; set; } = "";
+    [Required]
+    public int StreetNumber { get; set; }
+    [Required]
+    public bool isHouse { get; set; }
+    [Required]
+    public int ApartmentBuildingNumber { get; set; }
+    [Required]
+    public int Floor { get; set; }
+    [Required]
+    public int ApartmentNumber { get; set; }
+}
+
+public class Checkout
+{
+    public int Id { get; set; }
+    public double GrandTotal { get; set; }
+    public int UserId { get; set; }
+    public UserInfo? User { get; set; }
+    public List<Order>? Orders { get; set; }
 }
 
 public class Reservation

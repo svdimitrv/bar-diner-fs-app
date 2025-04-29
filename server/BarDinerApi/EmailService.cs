@@ -27,6 +27,24 @@ public class EmailService
         await SendEmailAsync(toMail, subject, body);
     }
 
+        public async Task SendStaffNotificationAsync(string staffEmail, Checkout checkout)
+    {
+        var subject = "New Order Received";
+        var body = $@"
+A new order has been made:
+
+Name: {checkout.User?.Name}
+Email: {checkout.User?.Email}
+Phone: {checkout.User?.Phone}
+
+Please contact the customer if any specifics.
+
+– BARRA System
+";
+
+        await SendEmailAsync(staffEmail, subject, body);
+    }
+
     public async Task SendStaffNotificationAsync(string staffEmail, Reservation reservation)
     {
         var subject = "New Reservation Received";

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -10,9 +11,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BarDinerApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250429134526_AddPrimaryKeyToUserInfo")]
+    partial class AddPrimaryKeyToUserInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +35,7 @@ namespace BarDinerApi.Migrations
                     b.Property<double>("GrandTotal")
                         .HasColumnType("double precision");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -102,7 +105,7 @@ namespace BarDinerApi.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("OrderId"));
 
-                    b.Property<int>("CheckoutId")
+                    b.Property<int?>("CheckoutId")
                         .HasColumnType("integer");
 
                     b.Property<string>("DishName")
@@ -121,7 +124,7 @@ namespace BarDinerApi.Migrations
 
                     b.HasIndex("CheckoutId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order");
                 });
 
             modelBuilder.Entity("Reservation", b =>
@@ -204,16 +207,14 @@ namespace BarDinerApi.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users");
+                    b.ToTable("UserInfo");
                 });
 
             modelBuilder.Entity("Checkout", b =>
                 {
                     b.HasOne("UserInfo", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -231,13 +232,9 @@ namespace BarDinerApi.Migrations
 
             modelBuilder.Entity("Order", b =>
                 {
-                    b.HasOne("Checkout", "Checkout")
+                    b.HasOne("Checkout", null)
                         .WithMany("Orders")
-                        .HasForeignKey("CheckoutId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Checkout");
+                        .HasForeignKey("CheckoutId");
                 });
 
             modelBuilder.Entity("Checkout", b =>

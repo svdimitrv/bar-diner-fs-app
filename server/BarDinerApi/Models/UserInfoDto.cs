@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
-public class UserInfo {
+public class UserInfoDto
+{
     [Required]
     public string Name { get; set; } = "";
     [Required]
@@ -10,6 +11,18 @@ public class UserInfo {
     public string Email { get; set; } = "";
     [Required]
     public string Phone { get; set; } = "";
+    [Required]
+    public string Street { get; set; } = "";
+    [Required]
+    public int StreetNumber { get; set; }
+    [Required]
+    public bool isHouse { get; set; }
+    [Required]
+    public int ApartmentBuildingNumber { get; set; }
+    [Required]
+    public int Floor { get; set; }
+    [Required]
+    public int ApartmentNumber { get; set; }
 }
 
 public class ValidCityAttribute : ValidationAttribute
