@@ -42,11 +42,29 @@
       }
     }
 
-    .quantity-input {
-      max-width: 50px;
-      font-family: $app-primary-font-family;
-      font-size: 0.875rem;
-      background-color: $color-subtle-text;
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .icon-button {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+    
+    .icon-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .quantity-value {
+      font-weight: bold;
+      min-width: 1.5rem;
+      text-align: center;
     }
 
     .item-price {

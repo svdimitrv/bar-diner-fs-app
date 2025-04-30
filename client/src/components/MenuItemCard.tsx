@@ -19,7 +19,12 @@ const MenuItemCard: React.FC<Props> = ({ item }) => {
       <h3 className="menu-header">{item.name}</h3>
       <p className="menu-description">{item.description}</p>
       <strong className="menu-description">{item.price.toFixed(2)} lv</strong>
-      <button onClick={onAddItemToCart}>Add to cart</button>
+      {item.allergens && (
+        <p className="menu-allergens">{item.allergens}</p>
+      )}
+      <button className="add-to-cart-button" onClick={onAddItemToCart}>
+        Add to cart
+      </button>
     </div>
   );
 };

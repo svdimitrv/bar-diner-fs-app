@@ -3,6 +3,8 @@ import { useShoppingCart } from "../contexts/ShoppingCartContextProvider";
 import { useNavigate } from "react-router-dom";
 import "./ShoppingCart.scss";
 import ContentWrapper from "./ContentWrapper";
+import "../tailwind-server.css";
+import { PlusIcon, MinusIcon } from "@heroicons/react/24/solid";
 
 export const ShoppingCart: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity, clearCart } =
@@ -37,17 +39,27 @@ export const ShoppingCart: React.FC = () => {
                 <div key={item.id} className="cart-item">
                   <div className="item-info">
                     <h2>{item.name}</h2>
-                    <p>Qty: {item.quantity}</p>
-                  </div>
-                  <div>
-                    <input
-                      className="quantity-input"
-                      type="number"
-                      value={item.quantity}
-                      onChange={(e) =>
-                        updateQuantity(item.id, Number(e.target.value))
-                      }
-                    ></input>
+                    <p className="quantity-controls">
+                      Quantity:
+                      <button
+                        className="icon-button"
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity - 1)
+                        }
+                        disabled={item.quantity <= 1}
+                      >
+                        <MinusIcon className="h-4 w-4" />
+                      </button>
+                      <span className="quantity-value">{item.quantity}</span>
+                      <button
+                        className="icon-button"
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity + 1)
+                        }
+                      >
+                        <PlusIcon className="h-4 w-4" />
+                      </button>
+                    </p>{" "}
                   </div>
                   <div className="item-price">
                     €{(Number(item.price) * Number(item.quantity)).toFixed(2)}

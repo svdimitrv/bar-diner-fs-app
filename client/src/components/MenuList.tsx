@@ -10,6 +10,7 @@ export type MenuItem = {
   price: number;
   description: string;
   quantity: number;
+  allergens: string;
   category: {
     id: number;
     name: string;

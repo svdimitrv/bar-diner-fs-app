@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -13,6 +14,18 @@ public class OrderController : ControllerBase
         _context = context;
         _emailService = emailService;
     }
+    //get a list of all orders
+    [HttpGet("orders")]
+    public async Task<IActionResult> GetOrders()
+    {
+        var checkouts = await _context.AllOrders
+                        .Include(c => c.User)
+                        .Include(c => c.Orders)
+                        .ToListAsync();
+
+        return Ok(checkouts);
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateOrder([FromBody] CheckoutDto checkoutDto)
     {
