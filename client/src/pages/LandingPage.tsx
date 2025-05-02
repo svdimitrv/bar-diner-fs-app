@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import barPlaceholder from "../assets/placeholder-bar-image.jpg";
 import transparentLogo from '../assets/logo-transparent.png'
-import "./LandingPage.scss";
+import '../styles/LandingPage.scss';
 
 const LandingPage: React.FC = () => {
     const navigate = useNavigate();

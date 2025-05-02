@@ -1,5 +1,5 @@
   import React, { createContext, useContext, useState } from "react";
-  import { MenuItem } from "../components/MenuList";
+  import { MenuItem } from "../types/MenuItem";
 
   type ShoppingCartContextType = {
       cartItems: MenuItem[];
@@ -48,6 +48,7 @@
       const clearCart = () => {
           setCartItems([]);
       }
+    
 
       return (
           <ShoppingCartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart }}>

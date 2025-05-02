@@ -1,6 +1,6 @@
 import React from "react";
-import { MenuItem } from "./MenuList";
-import "./MenuItemCard.scss";
+import { MenuItem } from "../types/MenuItem";
+import "../styles/MenuItemCard.scss";
 import { useShoppingCart } from "../contexts/ShoppingCartContextProvider";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/solid";
 import '../tailwind-server.css'

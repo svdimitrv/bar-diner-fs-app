@@ -1,14 +1,26 @@
-import React from 'react';
-import axios from 'axios';
-import { MenuItem } from './MenuList';
+import React from "react";
+import { useShoppingCart } from "../contexts/ShoppingCartContextProvider";
+import "../tailwind-server.css";
+import ContentWrapper from "./ContentWrapper";
 
-type CheckoutComponentProps = {
-    menuItems: MenuItem[];
-}
+export const CheckoutComponent: React.FC = () => {
+  const { cartItems } = useShoppingCart(); // Access cartItems from context
 
-export const CheckoutComponent: React.FC<CheckoutComponentProps> = ({menuItems}: CheckoutComponentProps) => {
-
-    return (
-        <div>Checkout component is here</div>
-    )
-}
+  return (
+    <ContentWrapper>
+      <h2>Checkout</h2>
+      {cartItems.length === 0 ? (
+        <p>Your cart is empty</p>
+      ) : (
+        <ul>
+          {cartItems.map((item) => (
+            <li key={item.id}>
+              {item.name} - {item.price} lv - Quantity: {item.quantity}
+            </li>
+          ))}
+        </ul>
+      )}
+      <div className="text-black">Total items: {cartItems.length}</div>
+    </ContentWrapper>
+  );
+};

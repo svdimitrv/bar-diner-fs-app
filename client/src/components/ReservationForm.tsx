@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./ReservationForm.scss";
+import '../styles/ReservationForm.scss'
 import ContentWrapper from "./ContentWrapper";
 
 const ReservationForm: React.FC = () => {

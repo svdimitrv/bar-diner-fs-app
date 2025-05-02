@@ -1,21 +1,9 @@
 import React from "react";
 import axios from "axios";
-import "./MenuList.scss";
-import ContentWrapper from "./ContentWrapper";
-import MenuItemCard from "./MenuItemCard";
-
-export type MenuItem = {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
-  quantity: number;
-  allergens: string;
-  category: {
-    id: number;
-    name: string;
-  };
-};
+import '../styles/MenuList.scss'
+import ContentWrapper from "../components/ContentWrapper";
+import MenuItemCard from "../components/MenuItemCard";
+import { MenuItem } from "../types/MenuItem";
 
 const MenuList: React.FC = () => {
   const [_, setMenuData] = React.useState<MenuItem[]>([]);

@@ -1,5 +1,6 @@
 import React from 'react';
-import './ContentWrapper.scss'
+import '../styles/ContentWrapper.scss'
+import '../tailwind-server.css'
 
 type ContentWrapperProps = {
     children: React.ReactNode;
@@ -7,7 +8,7 @@ type ContentWrapperProps = {
 
 const ContentWrapper: React.FC<ContentWrapperProps> = ({children}) => {
     return (
-        <section className='content-wrapper'>
+        <section className='content-wrapper flex flex-col items-center justify-center h-full'>
             {children}
         </section>
     )

@@ -1,6 +1,6 @@
 import React from 'react';
 import transparentLogo from '../assets/logo-transparent.png'
-import './OurMission.scss'
+import '../styles/OurMission.scss'
 
 type MissionDescriptor = {
     missionImage: string;
