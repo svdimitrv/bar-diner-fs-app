@@ -1,3 +1,7 @@
 .highlight-button {
     @include highlight-button;
 }
+
+.clear-cart-button {
+    @include subtle-button
+}

@@ -5,6 +5,7 @@ import ContentWrapper from "./ContentWrapper";
 import "../styles/CheckoutComponent.scss";
 import { useFormik } from "formik";
 import { validationSchema } from "../validation/checkoutFormValidationScheme";
+import { useNavigate } from "react-router-dom";
 
 type UserInfo = {
   name: string;
@@ -20,7 +21,8 @@ type UserInfo = {
 };
 
 export const CheckoutComponent: React.FC = () => {
-  const { cartItems } = useShoppingCart();
+  const { cartItems, clearCart } = useShoppingCart();
+  const navigate = useNavigate();
   const [formData, _] = useState<UserInfo>({
     name: "",
     city: "",
@@ -37,23 +39,40 @@ export const CheckoutComponent: React.FC = () => {
   const formik = useFormik({
     initialValues: formData,
     validationSchema,
-    onSubmit: (values) => {
-      // Submit to backend
+    onSubmit: (values, {resetForm}) => {
+      console.log('vals', values);
+      resetForm();
     },
   });
 
   return (
     <ContentWrapper>
-      <h2 className="text-2xl font-bold mb-4">Checkout</h2>
+      <h2 className="text-2xl font-bold mb-4 color-[#002147]">Checkout</h2>
 
       {cartItems.length === 0 ? (
-        <p>Your cart is empty</p>
+        <div className="flex flex-col gap-2">
+          <p>Your cart is empty</p>
+          <button
+            className="highlight-button"
+            onClick={() => navigate("/menu")}
+          >
+            Menu
+          </button>
+        </div>
       ) : (
         <>
-          <ul className="mb-4">
+          <ul className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {cartItems.map((item) => (
-              <li key={item.id}>
-                {item.name} - {item.price} lv - Quantity: {item.quantity}
+              <li
+                key={item.id}
+                className="bg-white rounded-lg shadow-sm border border-gray-100 px-6 py-4 transition-shadow hover:shadow-md"
+              >
+                <div className="font-semibold text-lg text-gray-800">
+                  {item.name}
+                </div>
+                <div className="text-sm text-gray-600 mt-1">
+                  {item.price} lv &bull; Quantity: {item.quantity}
+                </div>
               </li>
             ))}
           </ul>
@@ -63,8 +82,9 @@ export const CheckoutComponent: React.FC = () => {
           </div>
 
           <form
+            id="form-id"
             onSubmit={formik.handleSubmit}
-            className="grid grid-cols-1 md:grid-cols-2 gap-3 text-black"
+            className="grid grid-cols-1 md:grid-cols-2 gap-2 text-black"
           >
             <label className="flex items-center gap-2 col-span-full">
               <input
@@ -221,14 +241,20 @@ export const CheckoutComponent: React.FC = () => {
                 </div>
               </>
             )}
+          </form>
 
+          <div className="flex gap-4 mt-6 justify-end">
             <button
               type="submit"
-              className="highlight-button mt-4 col-span-full"
+              form='form-id'
+              className="highlight-button"
             >
               Submit Order
             </button>
-          </form>
+            <button type="button" onClick={() => clearCart()} className="clear-cart-button">
+              Clear the cart
+            </button>
+          </div>
         </>
       )}
     </ContentWrapper>

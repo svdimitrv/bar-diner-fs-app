@@ -7,11 +7,13 @@ import { CartSummary } from "../components/CartSummary";
 import { EmptyCartMessage } from "../components/EmptyCartMessage";
 import "../tailwind-server.css";
 import '../styles/ShoppingCart.scss';
+import { useCloseCart } from "../contexts/CloseCartContentx";
 
 export const ShoppingCart: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity, clearCart } =
     useShoppingCart();
   const navigate = useNavigate();
+  const { closeCart } = useCloseCart();
 
   const getTotal = () => {
     return cartItems
@@ -23,6 +25,22 @@ export const ShoppingCart: React.FC = () => {
       }, 0)
       .toFixed(2);
   };
+
+
+  const onCartCheckout = () => {
+    navigate('/checkout');
+    closeCart();
+  }
+
+  const onClearCart = () => {
+    clearCart();
+    closeCart();
+  }
+
+  const onMenuButtonNavigate = () => {
+    navigate('/menu');
+    closeCart();
+  }
 
   return (
     <ContentWrapper>
@@ -46,12 +64,12 @@ export const ShoppingCart: React.FC = () => {
             </div>
             <CartSummary
               total={getTotal()}
-              onCheckout={() => navigate("/checkout")}
-              onClear={clearCart}
+              onCheckout={onCartCheckout}
+              onClear={onClearCart}
             />
           </>
         ) : (
-          <EmptyCartMessage onNavigate={() => navigate("/menu")} />
+          <EmptyCartMessage onNavigate={onMenuButtonNavigate} />
         )}
       </section>
     </ContentWrapper>
