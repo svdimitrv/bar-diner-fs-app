@@ -15,7 +15,7 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<LandingPage />} />
-            <Route path="/mission" element={<OurMission />} />
+            <Route path="/about" element={<OurMission />} />
             <Route path="/menu" element={<MenuList />} />
             <Route path="/reservation" element={<ReservationForm />} />
             <Route path="/checkout" element={<CheckoutComponent />}></Route>
