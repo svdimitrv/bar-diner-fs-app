@@ -84,7 +84,7 @@ export const CheckoutComponent: React.FC = () => {
           <form
             id="form-id"
             onSubmit={formik.handleSubmit}
-            className="grid grid-cols-1 md:grid-cols-2 gap-2 text-black"
+            className="grid grid-cols-1 md:grid-cols-2 gap-2 text-black m-w-[900]"
           >
             <label className="flex items-center gap-2 col-span-full">
               <input
@@ -100,7 +100,7 @@ export const CheckoutComponent: React.FC = () => {
               <input
                 name="name"
                 placeholder="Name"
-                className="border border-[#002147] p-1 rounded"
+                className="border border-[#002147] p-2 rounded"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
@@ -115,7 +115,7 @@ export const CheckoutComponent: React.FC = () => {
               <input
                 name="city"
                 placeholder="City"
-                className="border border-[#002147] p-1 rounded"
+                className="border border-[#002147] p-2 rounded"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.city}
@@ -131,7 +131,7 @@ export const CheckoutComponent: React.FC = () => {
                 name="email"
                 type="email"
                 placeholder="Email"
-                className="border border-[#002147] p-1 rounded"
+                className="border border-[#002147] p-2 rounded"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
@@ -146,7 +146,7 @@ export const CheckoutComponent: React.FC = () => {
               <input
                 name="phone"
                 placeholder="Phone"
-                className="border border-[#002147] p-1 rounded"
+                className="border border-[#002147] p-2 rounded"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.phone}
@@ -161,7 +161,7 @@ export const CheckoutComponent: React.FC = () => {
               <input
                 name="street"
                 placeholder="Street"
-                className="border border-[#002147] p-1 rounded"
+                className="border border-[#002147] p-2 rounded"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.street}
@@ -177,7 +177,7 @@ export const CheckoutComponent: React.FC = () => {
                 name="streetNumber"
                 placeholder="Street Number"
                 type="number"
-                className="border border-[#002147] p-1 rounded"
+                className="border border-[#002147] p-2 rounded"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.streetNumber ?? ""}
@@ -195,7 +195,7 @@ export const CheckoutComponent: React.FC = () => {
                     name="apartmentBuildingNumber"
                     placeholder="Apartment Building Number"
                     type="number"
-                    className="border border-[#002147] p-1 rounded"
+                    className="border border-[#002147] p-2 rounded"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.apartmentBuildingNumber ?? ""}
@@ -212,7 +212,7 @@ export const CheckoutComponent: React.FC = () => {
                     name="floor"
                     placeholder="Floor"
                     type="number"
-                    className="border border-[#002147] p-1 rounded"
+                    className="border border-[#002147] p-2 rounded"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.floor ?? ""}
@@ -228,7 +228,7 @@ export const CheckoutComponent: React.FC = () => {
                     name="apartmentNumber"
                     placeholder="Apartment Number"
                     type="number"
-                    className="border border-[#002147] p-1 rounded"
+                    className="border border-[#002147] p-2 rounded"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.apartmentNumber ?? ""}
