@@ -15,6 +15,22 @@ public class ReservationsController : ControllerBase
         _emailService = emailService;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetReservations()
+    {
+        var todayLocal = DateTime.Today;
+        var tomorrowLocal = todayLocal.AddDays(1);
+
+        var todayUtc = DateTime.SpecifyKind(todayLocal, DateTimeKind.Local).ToUniversalTime();
+        var tomorrowUtc = DateTime.SpecifyKind(tomorrowLocal, DateTimeKind.Local).ToUniversalTime();
+
+        var items = await _context.Reservations
+            .Where(r => r.Date >= todayUtc && r.Date < tomorrowUtc)
+            .ToListAsync();
+
+        return Ok(items);
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateReservation([FromBody] ReservationDto reservation)
     {
@@ -23,9 +39,12 @@ public class ReservationsController : ControllerBase
             return BadRequest(ModelState);
         }
 
+        var sofiaZone = TimeZoneInfo.FindSystemTimeZoneById("FLE Standard Time");
+        var localDate = TimeZoneInfo.ConvertTimeToUtc(reservation.Date.Date, sofiaZone);
+
         var entity = new Reservation
         {
-            Date = DateTime.SpecifyKind(reservation.Date.Date, DateTimeKind.Utc),
+            Date = localDate,
             Time = reservation.Time,
             PartySize = reservation.PartySize,
             Name = reservation.Name,

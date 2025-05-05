@@ -7,19 +7,21 @@ import MenuList from "./pages/MenuList";
 import ReservationForm from "./components/ReservationForm";
 import { ShoppingCartContextProvider } from "./contexts/ShoppingCartContextProvider";
 import { CheckoutComponent } from "./components/CheckoutComponent";
+import Dashboard  from "./pages/AdminPage";
 
 function App() {
   return (
     <>
       <ShoppingCartContextProvider>
-          <Header />
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/about" element={<OurMission />} />
-            <Route path="/menu" element={<MenuList />} />
-            <Route path="/reservation" element={<ReservationForm />} />
-            <Route path="/checkout" element={<CheckoutComponent />}></Route>
-          </Routes>
+        <Header />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/about" element={<OurMission />} />
+          <Route path="/menu" element={<MenuList />} />
+          <Route path="/reservation" element={<ReservationForm />} />
+          <Route path="/checkout" element={<CheckoutComponent />}></Route>
+          <Route path="/admin" element={<Dashboard />}></Route>
+        </Routes>
       </ShoppingCartContextProvider>
     </>
   );

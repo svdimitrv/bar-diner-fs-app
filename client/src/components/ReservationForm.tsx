@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import '../styles/ReservationForm.scss'
 import ContentWrapper from "./ContentWrapper";
+import '../types/ReservationItem';
+import { ReservationItem } from "../types/ReservationItem";
 
 const ReservationForm: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ReservationItem>({
     date: "",
     time: "",
     partySize: "",

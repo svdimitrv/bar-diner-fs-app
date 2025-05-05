@@ -15,7 +15,7 @@ public class OrderController : ControllerBase
         _emailService = emailService;
     }
     //get a list of all orders
-    [HttpGet("orders")]
+    [HttpGet]
     public async Task<IActionResult> GetOrders()
     {
         var checkouts = await _context.AllOrders

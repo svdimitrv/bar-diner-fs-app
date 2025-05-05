@@ -6,19 +6,7 @@ import "../styles/CheckoutComponent.scss";
 import { useFormik } from "formik";
 import { validationSchema } from "../validation/checkoutFormValidationScheme";
 import { useNavigate } from "react-router-dom";
-
-type UserInfo = {
-  name: string;
-  city: string;
-  email: string;
-  phone: string;
-  street: string;
-  streetNumber: number | null;
-  isHouse: boolean;
-  apartmentBuildingNumber: number | null;
-  floor: number | null;
-  apartmentNumber: number | null;
-};
+import { UserInfo } from "../types/UserInfo";
 
 export const CheckoutComponent: React.FC = () => {
   const { cartItems, clearCart } = useShoppingCart();
