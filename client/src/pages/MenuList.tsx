@@ -5,6 +5,8 @@ import ContentWrapper from "../components/ContentWrapper";
 import MenuItemCard from "../components/MenuItemCard";
 import { MenuItem } from "../types/MenuItem";
 
+const CATEGORY_ORDER = ["Salads", "Starters", "Main Courses", "Desserts", "Alcoholic Drinks", "Non-Alcoholic Drinks"];
+
 const MenuList: React.FC = () => {
   const [_, setMenuData] = React.useState<MenuItem[]>([]);
 

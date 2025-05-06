@@ -20,11 +20,29 @@ public async Task<IActionResult> AddMenuItem([FromBody] MenuItem newItem)
         return BadRequest("Invalid data.");
     }
 
+    // Make sure category is provided
+    if (newItem.Category == null || string.IsNullOrWhiteSpace(newItem.Category.Name))
+    {
+        return BadRequest("Category is required.");
+    }
+
+    var existingCategory = await _context.MenuCategories
+        .FirstOrDefaultAsync(c => c.Name.ToLower() == newItem.Category.Name.ToLower());
+
+    if (existingCategory == null)
+    {
+        return BadRequest("Category does not exist.");
+    }
+
+    newItem.CategoryId = existingCategory.Id;
+    newItem.Category = null; 
+
     _context.MenuItems.Add(newItem);
     await _context.SaveChangesAsync();
 
     return CreatedAtAction(nameof(GetMenuItems), new { id = newItem.Id }, newItem);
 }
+
 
     // Get all menu items
     [HttpGet("items")]
