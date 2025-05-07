@@ -6,8 +6,9 @@ import LandingPage from "./pages/LandingPage";
 import MenuList from "./pages/MenuList";
 import ReservationForm from "./components/ReservationForm";
 import { ShoppingCartContextProvider } from "./contexts/ShoppingCartContextProvider";
-import { CheckoutComponent } from "./components/CheckoutComponent";
+import { CheckoutComponent } from "./pages/CheckoutPage";
 import Dashboard  from "./pages/AdminPage";
+import ThankYouPage from "./pages/ThankYou";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/reservation" element={<ReservationForm />} />
           <Route path="/checkout" element={<CheckoutComponent />}></Route>
           <Route path="/admin" element={<Dashboard />}></Route>
+          <Route path="/thank-you" element={<ThankYouPage />}></Route>
         </Routes>
       </ShoppingCartContextProvider>
     </>

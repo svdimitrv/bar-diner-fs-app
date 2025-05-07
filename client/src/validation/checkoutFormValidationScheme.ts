@@ -10,25 +10,42 @@ export const validationSchema = Yup.object().shape({
     .matches(/^\d{10}$/, "Phone must be 10 digits")
     .required("Phone is required"),
   street: Yup.string().required("Street is required"),
-  streetNumber: Yup.number().required("Street Number is required"),
+  streetNumber: Yup.number()
+    .typeError("Street Number must be a number")
+    .required("Street Number is required"),
 
-  isHouse: Yup.boolean(),
+  isHouse: Yup.boolean().required(),
 
-  apartmentBuildingNumber: Yup.number().when("isHouse", {
-    is: false,
-    then: (schema) =>
-      schema.required("Building Number required for apartments"),
-    otherwise: (schema) => schema.nullable(),
-  }),
-  floor: Yup.number().when("isHouse", {
-    is: false,
-    then: (schema) => schema.required("Floor required for apartments"),
-    otherwise: (schema) => schema.nullable(),
-  }),
-  apartmentNumber: Yup.number().when("isHouse", {
-    is: false,
-    then: (schema) =>
-      schema.required("Apartment Number required for apartments"),
-    otherwise: (schema) => schema.nullable(),
-  }),
+  apartmentBuildingNumber: Yup.number()
+    .nullable()
+    .when("isHouse", {
+      is: false,
+      then: (schema) =>
+        schema
+          .typeError("Building Number must be a number")
+          .required("Building Number required for apartments"),
+      otherwise: (schema) => schema.nullable().notRequired(),
+    }),
+
+  floor: Yup.number()
+    .nullable()
+    .when("isHouse", {
+      is: false,
+      then: (schema) =>
+        schema
+          .typeError("Floor must be a number")
+          .required("Floor required for apartments"),
+      otherwise: (schema) => schema.nullable().notRequired(),
+    }),
+
+  apartmentNumber: Yup.number()
+    .nullable()
+    .when("isHouse", {
+      is: false,
+      then: (schema) =>
+        schema
+          .typeError("Apartment Number must be a number")
+          .required("Apartment Number required for apartments"),
+      otherwise: (schema) => schema.nullable().notRequired(),
+    }),
 });

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/orders")]
 public class OrderController : ControllerBase
 {
 
@@ -14,7 +14,6 @@ public class OrderController : ControllerBase
         _context = context;
         _emailService = emailService;
     }
-    //get a list of all orders
     [HttpGet]
     public async Task<IActionResult> GetOrders()
     {
@@ -40,6 +39,7 @@ public class OrderController : ControllerBase
             Name = checkoutDto.User.Name,
             City = checkoutDto.User.City,
             Email = checkoutDto.User.Email,
+            Phone = checkoutDto.User.Phone,
             Street = checkoutDto.User.Street,
             StreetNumber = checkoutDto.User.StreetNumber,
             isHouse = checkoutDto.User.isHouse,
@@ -68,6 +68,7 @@ public class OrderController : ControllerBase
         _context.AllOrders.Add(entity);
         await _context.SaveChangesAsync();
 
+        await _emailService.SendOrderConfirmationAsync(entity.User.Email, entity);
         await _emailService.SendStaffNotificationAsync("dimitrov.svetoslav@gmail.com", entity);
 
         return Ok(new { success = true });

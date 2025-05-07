@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useShoppingCart } from "../contexts/ShoppingCartContextProvider";
 import "../tailwind-server.css";
-import ContentWrapper from "./ContentWrapper";
+import ContentWrapper from "../components/ContentWrapper";
 import "../styles/CheckoutComponent.scss";
 import { useFormik } from "formik";
 import { validationSchema } from "../validation/checkoutFormValidationScheme";
 import { useNavigate } from "react-router-dom";
 import { UserInfo } from "../types/UserInfo";
+import axios from "axios";
 
 export const CheckoutComponent: React.FC = () => {
   const { cartItems, clearCart } = useShoppingCart();
@@ -27,10 +28,45 @@ export const CheckoutComponent: React.FC = () => {
   const formik = useFormik({
     initialValues: formData,
     validationSchema,
-    onSubmit: (values, {resetForm}) => {
-      console.log('vals', values);
-      resetForm();
-    },
+    onSubmit: async (values, { resetForm }) => {
+      const requestBody = {
+        user: {
+          name: values.name,
+          city: values.city,
+          email: values.email,
+          phone: values.phone,
+          street: values.street,
+          streetNumber: values.streetNumber,
+          isHouse: values.isHouse,
+          apartmentBuildingNumber: values.apartmentBuildingNumber,
+          floor: values.floor,
+          apartmentNumber: values.apartmentNumber
+        },
+        orders: cartItems.map(item => ({
+          dishName: item.name,
+          dishQuantity: item.quantity,
+          price: item.price,
+          total: item.quantity * item.price
+        })),
+        grandTotal: cartItems.reduce((sum, item) => sum + item.quantity * item.price, 0)
+      };
+
+      try {
+        const response = await axios.post("http://localhost:5043/api/orders", requestBody);
+      
+        if (response.data?.success) {
+          resetForm();
+          clearCart();
+          navigate('/thank-you')
+        } 
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error("Order submission failed:", error.response?.data || error.message);
+        } else {
+          console.error("An unexpected error occurred:", error);
+        }
+      }
+    }
   });
 
   return (
@@ -229,20 +265,12 @@ export const CheckoutComponent: React.FC = () => {
                 </div>
               </>
             )}
+            <div className="flex justify-center col-span-full">
+              <button type="submit" className="highlight-button py-2 px-4 mt-4 text-white" >
+                Submit Order
+              </button>
+            </div>
           </form>
-
-          <div className="flex gap-4 mt-6 justify-end">
-            <button
-              type="submit"
-              form='form-id'
-              className="highlight-button"
-            >
-              Submit Order
-            </button>
-            <button type="button" onClick={() => clearCart()} className="clear-cart-button">
-              Clear the cart
-            </button>
-          </div>
         </>
       )}
     </ContentWrapper>

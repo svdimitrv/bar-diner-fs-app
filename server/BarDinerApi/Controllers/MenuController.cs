@@ -12,36 +12,36 @@ public class MenuController : ControllerBase
         _context = context;
     }
 
-[HttpPost("items")]
-public async Task<IActionResult> AddMenuItem([FromBody] MenuItem newItem)
-{
-    if (newItem == null)
+    [HttpPost("items")]
+    public async Task<IActionResult> AddMenuItem([FromBody] MenuItem newItem)
     {
-        return BadRequest("Invalid data.");
+        if (newItem == null)
+        {
+            return BadRequest("Invalid data.");
+        }
+
+        // Make sure category is provided
+        if (newItem.Category == null || string.IsNullOrWhiteSpace(newItem.Category.Name))
+        {
+            return BadRequest("Category is required.");
+        }
+
+        var existingCategory = await _context.MenuCategories
+            .FirstOrDefaultAsync(c => c.Name.ToLower() == newItem.Category.Name.ToLower());
+
+        if (existingCategory == null)
+        {
+            return BadRequest("Category does not exist.");
+        }
+
+        newItem.CategoryId = existingCategory.Id;
+        newItem.Category = null;
+
+        _context.MenuItems.Add(newItem);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetMenuItems), new { id = newItem.Id }, newItem);
     }
-
-    // Make sure category is provided
-    if (newItem.Category == null || string.IsNullOrWhiteSpace(newItem.Category.Name))
-    {
-        return BadRequest("Category is required.");
-    }
-
-    var existingCategory = await _context.MenuCategories
-        .FirstOrDefaultAsync(c => c.Name.ToLower() == newItem.Category.Name.ToLower());
-
-    if (existingCategory == null)
-    {
-        return BadRequest("Category does not exist.");
-    }
-
-    newItem.CategoryId = existingCategory.Id;
-    newItem.Category = null; 
-
-    _context.MenuItems.Add(newItem);
-    await _context.SaveChangesAsync();
-
-    return CreatedAtAction(nameof(GetMenuItems), new { id = newItem.Id }, newItem);
-}
 
 
     // Get all menu items
@@ -63,8 +63,15 @@ public async Task<IActionResult> AddMenuItem([FromBody] MenuItem newItem)
             return BadRequest("ID mismatch");
         }
 
+        var categoryExists = await _context.MenuCategories
+            .AnyAsync(c => c.Id == updatedItem.CategoryId);
+
+        if (!categoryExists)
+        {
+            return BadRequest($"Category with ID {updatedItem.CategoryId} does not exist.");
+        }
+
         var existingItem = await _context.MenuItems
-            .Include(m => m.Category)
             .FirstOrDefaultAsync(m => m.Id == id);
 
         if (existingItem == null)
@@ -78,9 +85,17 @@ public async Task<IActionResult> AddMenuItem([FromBody] MenuItem newItem)
         existingItem.Allergens = updatedItem.Allergens;
         existingItem.CategoryId = updatedItem.CategoryId;
 
-        await _context.SaveChangesAsync();
-        return Ok(existingItem);
+        try
+        {
+            await _context.SaveChangesAsync();
+            return Ok(existingItem);
+        }
+        catch (DbUpdateException ex)
+        {
+            return StatusCode(500, $"Database update failed: {ex.InnerException?.Message ?? ex.Message}");
+        }
     }
+
 
     [HttpDelete("items/{id}")]
     public async Task<IActionResult> DeleteMenuItem(int id)

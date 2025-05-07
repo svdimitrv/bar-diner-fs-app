@@ -7,11 +7,8 @@ import {
   GridActionsCellItem,
   GridEventListener,
   GridRowId,
-  GridRenderEditCellParams,
   GridRowEditStopReasons,
   GridRowModel,
-  useGridApiContext,
-  GridValueSetter,
 } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
@@ -31,6 +28,15 @@ const MENU_CATEGORIES = [
   "Alcoholic Drinks",
   "Non-Alcoholic Drinks",
 ];
+
+const categoriesMap: Record<string, number> = {
+  "Salads": 1,
+  "Starters": 2,
+  "Main Courses": 3,
+  "Desserts": 4,
+  "Alcoholic Drinks": 5,
+  "Non-Alcoholic Drinks": 6
+};
 
 const Dashboard: FC = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -107,6 +113,8 @@ const Dashboard: FC = () => {
   };
 
   const processRowUpdate = async (newRow: GridRowModel) => {
+    console.log(newRow);
+
     try {
       const response = await axios.put(
         `http://localhost:5043/api/menu/items/${newRow.id}`,
@@ -144,36 +152,6 @@ const Dashboard: FC = () => {
     }
   };
 
-  const setCategory: GridValueSetter<MenuItem> = (value, row) => {
-    const updatedRow = {
-      ...row,
-      category: { ...row.category, name: value },
-    };
-
-    return updatedRow;
-  };
-
-  const CustomCategoryEditor = (props: GridRenderEditCellParams) => {
-    const { id, value, field } = props;
-    const apiRef = useGridApiContext();
-
-    const handleValueChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const newValue = event.target.value; // The new value entered by the user
-        apiRef.current.setEditCellValue({ id, field, value: newValue });
-        return <select
-        className="w-full px-2 py-1 border rounded"
-        value={value}
-        onChange={handleValueChange}
-      >
-        {MENU_CATEGORIES.map((cat) => (
-          <option key={cat} value={cat}>
-            {cat}
-          </option>
-        ))}
-      </select>
-      };
-  };
-
   const columns: GridColDef[] = [
     { field: "name", headerName: "Name", flex: 1, editable: true },
     {
@@ -197,14 +175,25 @@ const Dashboard: FC = () => {
       editable: true,
     },
     {
-      field: "category",
+      field: "category.name",
       headerName: "Category",
       flex: 1,
       editable: true,
-      valueGetter: (value, row) => {
+      type: 'singleSelect',
+      valueOptions: MENU_CATEGORIES,
+      valueGetter: (value, row) => {    
         return row.category.name;
       },
-      renderEditCell: CustomCategoryEditor,
+      valueSetter: (value, row: MenuItem) => {
+          return {
+            ...row, 
+            category: {
+              name: value,
+              id: categoriesMap[value]
+            },
+            categoryId: categoriesMap[value],
+          }
+      }
     },
     { field: "allergens", headerName: "Allergens", flex: 1, editable: true },
     {
