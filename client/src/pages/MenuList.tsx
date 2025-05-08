@@ -1,26 +1,28 @@
 import React from "react";
 import axios from "axios";
-import '../styles/MenuList.scss'
 import ContentWrapper from "../components/ContentWrapper";
 import MenuItemCard from "../components/MenuItemCard";
 import { MenuItem } from "../types/MenuItem";
 
-const CATEGORY_ORDER = ["Salads", "Starters", "Main Courses", "Desserts", "Alcoholic Drinks", "Non-Alcoholic Drinks"];
+const CATEGORY_ORDER = [
+  "Salads",
+  "Starters",
+  "Main Courses",
+  "Desserts",
+  "Alcoholic Drinks",
+  "Non-Alcoholic Drinks",
+];
 
 const MenuList: React.FC = () => {
-  const [_, setMenuData] = React.useState<MenuItem[]>([]);
-
   const [grouped, setGrouped] = React.useState<Partial<Record<string, MenuItem[]>>>({});
 
   React.useEffect(() => {
     axios
       .get("http://localhost:5043/api/menu/items")
       .then((response) => {
-        setMenuData(response.data);
-
         const data = response.data as MenuItem[];
-
-        setGrouped(Object.groupBy(data, (item) => item.category.name));
+        const groupedData = Object.groupBy(data, (item) => item.category.name);
+        setGrouped(groupedData);
       })
       .catch((error) => {
         console.error("Error fetching menu items:", error);
@@ -29,17 +31,25 @@ const MenuList: React.FC = () => {
 
   return (
     <ContentWrapper>
-      <div className="menu-container">
-        {Object.keys(grouped).map((categoryName) => (
-          <div key={categoryName}>
-            <h2 className="menu-category-header">{categoryName}</h2>
-            <div className="menu-items">
-              {grouped[categoryName]?.map((item) => (
-                <MenuItemCard key={item.id} item={item} />
-              ))}
-            </div>
-          </div>
-        ))}
+      <div className="space-y-16 mt-8">
+        {CATEGORY_ORDER.map((categoryName) => {
+          const items = grouped[categoryName];
+          if (!items) return null;
+
+          return (
+            <section key={categoryName} className="space-y-4">
+              <h2 className="text-2xl font-bold uppercase text-gray-800 relative pb-2 font-heading">
+                {categoryName}
+                <span className="block w-12 h-1 bg-primary rounded mt-1 transition-all duration-300 group-hover:w-full" />
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                {items.map((item) => (
+                  <MenuItemCard key={item.id} item={item} />
+                ))}
+              </div>
+            </section>
+          );
+        })}
       </div>
     </ContentWrapper>
   );
