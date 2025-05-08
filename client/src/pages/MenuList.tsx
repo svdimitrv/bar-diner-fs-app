@@ -31,18 +31,18 @@ const MenuList: React.FC = () => {
 
   return (
     <ContentWrapper>
-      <div className="space-y-16 mt-8">
+      <div className="space-y-12 mt-6 px-4 sm:px-6 md:px-8">
         {CATEGORY_ORDER.map((categoryName) => {
           const items = grouped[categoryName];
           if (!items) return null;
 
           return (
             <section key={categoryName} className="space-y-4">
-              <h2 className="text-2xl font-bold uppercase text-gray-800 relative pb-2 font-heading">
+              <h2 className="text-xl sm:text-2xl font-bold uppercase text-gray-800 relative pb-2 font-heading">
                 {categoryName}
-                <span className="block w-12 h-1 bg-primary rounded mt-1 transition-all duration-300 group-hover:w-full" />
+                <span className="block w-12 h-1 bg-primary rounded mt-1" />
               </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {items.map((item) => (
                   <MenuItemCard key={item.id} item={item} />
                 ))}
